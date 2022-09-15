@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="book.js" defer></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <title>Tic Tac Toe</title>
 </head>
@@ -13,7 +13,7 @@
     <div class="content">
         <div class="info">
             <div class="restart">
-                <button>Restart</button>
+                <button id="restart" onclick="swaperino()">Restart</button>
             </div>
             <div class="opponent">
                 <form class="myForm" action>
@@ -25,10 +25,10 @@
                 </form>
             </div>
             <div class="player-one">
-                <button>Player 1 name</button>
+                <button id="player-one" onclick="addNewPlayer()">Player 1 name</button>
             </div>
             <div class="player-two">
-                <button>Player 2 name</button>
+                <button id="player-two" onclick="addNewPlayer()">Player 2 name</button>
             </div>
         </div>
         <div class="board">

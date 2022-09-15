@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto');
-
+ 
 * {
     margin: 0;
     padding: 0;
@@ -26,16 +26,25 @@ h1 {
     justify-content: center;
 }
 
+#active {
+    color: green;
+    font-size: 2.5rem;
+}
+
 .info {
     width: 450px;
-    text-align: center;
+    font-size: 2rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .info > div {
     width: 200px;
+    height: 35px;
 }
 
 datalist {
