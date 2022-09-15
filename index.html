@@ -13,7 +13,7 @@
     <div class="content">
         <div class="info">
             <div class="restart">
-                <button id="restart" onclick="swaperino()">Restart</button>
+                <button id="restart" onclick="gameBoard.clear()">Restart</button>
             </div>
             <div class="opponent">
                 <form class="myForm" action>
@@ -31,16 +31,16 @@
                 <button id="player-two" onclick="addNewPlayer()">Player 2 name</button>
             </div>
         </div>
-        <div class="board">
-            <div class="cell">x</div>
-            <div class="cell">o</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell">o</div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
+        <div class="board board-flex">
+            <div class="cell hidden" id="11"></div>
+            <div class="cell hidden" id="12"></div>
+            <div class="cell hidden" id="13"></div>
+            <div class="cell hidden" id="21"></div>
+            <div class="cell hidden" id="22"></div>
+            <div class="cell hidden" id="23"></div>
+            <div class="cell hidden" id="31"></div>
+            <div class="cell hidden" id="32"></div>
+            <div class="cell hidden" id="33"></div>
         </div>
     </div>
      

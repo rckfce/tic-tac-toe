@@ -69,6 +69,22 @@ button {
     display: grid;
     gap: 2px;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.board-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-lines {
     background-color: black;
 }
 
+.hidden {
+    display: none;
+}
+
+.start {
+    height: 3rem;
+}
