@@ -1,51 +1,73 @@
 let playerOne = {};
 let playerTwo = {};
 
-
 const gameBoard = (() => {       //module to store game board
-    let _rowOne = [0,0,0];
-    let _rowTwo = [0,0,0];
-    let _rowThree = [0,0,0];
-    const set = (marker, x, y) => {
-        if(x === "1") _rowOne[y-1] = marker;
-        if(x === "2") _rowTwo[y-1] = marker;
-        if(x === "3") _rowThree[y-1] = marker;
+    let board = [['0','0','0'],['0','0','0'],['0','0','0']];
+    
+    const _boardUpdate = (input) => {    //updates board and checks if there is a winner
+        let diagonalTopLeftToBotRight = [];
+        let diagonalTopRightToBotLeft = [];
+        for (i = 0; i < board.length; i++) {
+            let columnCheck = [];
+            for (j = 0; j < board.length; j++) {   //creates columns to check
+                columnCheck.push(board[j][i]);
+            }
+            diagonalTopLeftToBotRight.push(board[i][i]);
+            diagonalTopRightToBotLeft.push(board[i][2-i]);
+            if (_checkWin(board[i], input) || _checkWin(columnCheck, input)) _winnerAlert(input);    //checks winner for rows or columns passing marker
+        }
+        if (_checkWin(diagonalTopLeftToBotRight, input) || _checkWin(diagonalTopRightToBotLeft, input)) _winnerAlert(input);
+        _checkForDraw();
+    }
+
+    const _checkWin = (input, marker) => { //returns true if win condition is met for input
+        const winCondition = (markerCheck) => markerCheck === marker;  
+        return input.every(winCondition);
     };
-    const clear = () => {
-        _rowOne = [0,0,0];
-        _rowTwo = [0,0,0];
-        _rowThree = [0,0,0];
+
+    const _winnerAlert = (x) => {
+        if(playerOne.order === x) {
+            setTimeout(function () {
+                alert(`${playerOne.name} has won the game!`);
+            }, 100);
+        } else {
+            setTimeout(function () {
+                alert(`${playerTwo.name} has won the game!`);
+            }, 100);
+        }
+    }
+
+    const _checkForDraw = () => {                             //checks for draw
+        if(!board[0].includes('0') && !board[1].includes('0') && !board[2].includes('0')) {
+                setTimeout(function () {
+                    alert(`It is a draw!`);
+                }, 100);
+            };
+    }
+
+    const _checkLine = (line) => {   //function to pass marker in filter method    !!!need to change marker
+        return line == '2';
+    }
+
+    const _checkStatus = (input) => {   //gets how many markers in input
+        return input.filter(_checkLine);
+    }
+
+    const set = (marker, x, y) => {
+        board[x][y] = marker;
+        _boardUpdate(marker);       //passes current marker to _boardUpdate
+    };
+
+    const clear = () => { 
+        board = [['0','0','0'],['0','0','0'],['0','0','0']];
         cells.forEach((cell) => {
             cell.textContent = "";
         });
     };
-    const checkStatus = () => {
-        // checks rows
-        if(_rowOne[0] === _rowOne[1] && _rowOne[0] === _rowOne[2] && _rowOne[0] != "0") winner(_rowOne[0]);
-        if(_rowTwo[0] === _rowTwo[1] && _rowTwo[0] === _rowTwo[2] && _rowTwo[0] != "0") winner(_rowTwo[0]);
-        if(_rowThree[0] === _rowThree[1] && _rowThree[0] === _rowThree[2] && _rowThree[0] != "0") winner(_rowThree[0]);
-        // checks columns
-        if(_rowOne[0] === _rowTwo[0] && _rowOne[0] === _rowThree[0] && _rowOne[0] != "0") winner(_rowOne[0]);
-        if(_rowOne[1] === _rowTwo[1] && _rowOne[1] === _rowThree[1] && _rowOne[1] != "0") winner(_rowOne[1]);
-        if(_rowOne[2] === _rowTwo[2] && _rowOne[2] === _rowThree[2] && _rowOne[2] != "0") winner(_rowOne[2]);
-        // checks diagonal
-        if(_rowOne[0] === _rowTwo[1] && _rowOne[0] === _rowThree[2] && _rowOne[0] != "0") winner(_rowOne[0]);
-        if(_rowThree[0] === _rowTwo[1] && _rowThree[0] === _rowOne[2] && _rowThree[0] != "0") winner(_rowThree[0]);
-    };
-    const winner = (x) => {
-        if(playerOne.order === x) {
-            alert(`${playerOne.name} has won the game!`);
-        } else {
-            alert(`${playerTwo.name} has won the game!`);
-        }
-    }
-    const board = () => {     //temporary for testing
-        console.log(_rowOne);
-        console.log(_rowTwo);
-        console.log(_rowThree);
-    };
-    return {set, clear, checkStatus};
+
+    return {set, clear};
 })();
+
 
 const player = (name, order) => {      //factory function to create players
     return {name, order};
@@ -125,12 +147,12 @@ const cells = document.querySelectorAll(".cell");
 cells.forEach(each => each.addEventListener("click", markCell));
 
 function markCell() {
-    if(this.textContent === "x" || this.textContent === "o") return;
-    let tempArray = this.id.split("");
-    const marker = gameFlow.get();
-    this.textContent = marker;
-    const setMarker = gameBoard.set(marker, tempArray[0], tempArray[1]);
-    setTimeout(gameBoard.checkStatus, 100);
+    if(this.textContent === "x" || this.textContent === "o") return;    //do nothing if cell already has marker
+    let tempArray = this.id.split("");                                  //gets marker location from clicked element id
+    const marker = gameFlow.get();                                      //get current marker
+    this.textContent = marker;                                          //draw marker on screen
+    const setMarker = gameBoard.set(marker, tempArray[0], tempArray[1]);//sets marker on board
+    //setTimeout(gameBoard.checkStatus, 100);                             //updates board and checks for winner
 }
 
 function startGameButton() {
